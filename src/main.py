@@ -6,11 +6,14 @@ high=HighLight("file.txt",'RomanFile')
 
 
 high.record("Date", "ToolTip", 0,'yellow')
-high.record("Venicle", "n/a", 1,'blue')
+high.record("Venicle", "n/a", 1,'yellow')
 high.record("Venicle", "n/a", 2,'blue')
 high.record("Speed", 'mp/a', 3,'white')
 high.record("Speed", 'mp/a', 4,'green')
 
+high.recordEscape("Date", "ToolTip", 0,'yellow','//')
+high.recordEscape("Venicle", "n/a", 1,'blue','//')
+high.recordEscape("Venicle", "n/a", 2,'blue','//')
 
 
 

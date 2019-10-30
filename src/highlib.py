@@ -30,10 +30,10 @@ class Line():
 class HighLight():
     mainArrOfChars=[]
     hashRecord={}
+
     def __init__(self,inputName,nameOfData):
         self.inputName=inputName
         self.nameOfData=nameOfData
-
     def lines(self):
         arr=[]
         arrFile = open(self.inputName, 'r')
@@ -44,23 +44,38 @@ class HighLight():
             arr.append(Line(text))
         return  arr
 
+    def recordEscape(self, name, miles, token, color,escape):
+        hash = self.hashRecord.copy()
 
+        if escape in self.hashRecord:
+            smallHash = hash.get(escape).copy()
+            smallHash.update({token: {'type': name,
+                                      'attr': miles,
+                                      'color': color}})
+            hash.update({escape: smallHash})
+        else:
+            smallHash = {}
+            smallHash.update({token: {'type': name,
+                                      'attr': miles,
+                                      'color': color}
+                              })
+            hash.update({escape: smallHash})
 
+        self.hashRecord = hash
 
     def record(self,name,miles,token,color):
 
         hash=self.hashRecord.copy()
 
         if 'empty' in self.hashRecord:
-            smallHash= {}
             smallHash = hash.get('empty').copy()
-            smallHash.update({token:{'name':name,
+            smallHash.update({token:{'type':name,
                                      'attr':miles,
                                      'color' :color}})
             hash.update({'empty':smallHash})
         else:
             smallHash={}
-            smallHash.update({token:{'name':name,
+            smallHash.update({token:{'type':name,
                                      'attr':miles,
                                      'color':color}
                               })
@@ -68,27 +83,46 @@ class HighLight():
 
         self.hashRecord = hash
 
-        #import  json
-        #print(json.dumps(self.hashRecord))
+
 
     def create(self,nameOfFile):
+        newlist = []
+        for i in self.hashRecord.keys():
+            newlist.append(i)
+        newlist.remove('empty')
         line = self.lines()
         for i in line:
             token = i.tokenize()
-            data=self.hashRecord.get('empty')
-            for key in data.keys():
-                dataFromToken=token[key]
-                hashMapOfAttrivutes=data.get(key)
+            if token[0] in newlist:
+                data = self.hashRecord.get(token[0])
+                for key in data.keys():
+                    dataFromToken=token[key]
+                    hashMapOfAttrivutes=data.get(key)
+                    for letter in dataFromToken:
 
-                for letter in dataFromToken:
-                    color=hashMapOfAttrivutes.get('color')
+                        color=hashMapOfAttrivutes.get('color')
+                        toolTip=self.nameOfData+', Type:'+hashMapOfAttrivutes.get('type')+', Units:'+hashMapOfAttrivutes.get('attr')+', Value: `'+dataFromToken+'`'
+                        letterObjec = Letter(letter,color,toolTip)
+                        self.mainArrOfChars.append(letterObjec)
 
-                    toolTip=self.nameOfData+', Type:'+hashMapOfAttrivutes.get('name')+', Units:'+hashMapOfAttrivutes.get('attr')+', Value: `'+dataFromToken+'`'
-                    letterObjec = Letter(letter,color,toolTip)
-                    self.mainArrOfChars.append(letterObjec)
+                    self.mainArrOfChars.append(Letter('empty','empty','empty'))
+                self.mainArrOfChars.append(Letter('nextLine','nextLine','nextLine'))
 
-                self.mainArrOfChars.append(Letter('empty','empty','empty'))
-            self.mainArrOfChars.append(Letter('nextLine','nextLine','nextLine'))
+            else:
+                data=self.hashRecord.get('empty')
+                for key in data.keys():
+                    dataFromToken=token[key]
+                    hashMapOfAttrivutes=data.get(key)
+
+                    for letter in dataFromToken:
+                        color=hashMapOfAttrivutes.get('color')
+
+                        toolTip=self.nameOfData+', Type:'+hashMapOfAttrivutes.get('type')+', Units:'+hashMapOfAttrivutes.get('attr')+', Value: `'+dataFromToken+'`'
+                        letterObjec = Letter(letter,color,toolTip)
+                        self.mainArrOfChars.append(letterObjec)
+
+                    self.mainArrOfChars.append(Letter('empty','empty','empty'))
+                self.mainArrOfChars.append(Letter('nextLine','nextLine','nextLine'))
 
         self.runMainCharArray(nameOfFile)
 
@@ -99,7 +133,6 @@ class HighLight():
         span = ""
         stringtoWrite = ""
         for index in range(0, len(self.mainArrOfChars) - 1):
-            print(self.mainArrOfChars[index])
             if self.mainArrOfChars[index].char == 'empty':
                 if self.mainArrOfChars[index-1].color ==  self.mainArrOfChars[index+1].color:
                     createSpan='<span title = "'+self.mainArrOfChars[index-1].toolTip+'"  style="background-color: '+self.mainArrOfChars[index-1].color+'"> '+span+' </span>'
