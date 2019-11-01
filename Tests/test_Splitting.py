@@ -8,8 +8,8 @@ dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'data_highlighter/file.txt'
-COMMA_FILE = 'data_highlighter/file_comma.txt'
+DATA_FILE = '../data_highlighter/file.txt'
+COMMA_FILE = '../data_highlighter/file_comma.txt'
 
 class SimpleTests(unittest.TestCase):
 
@@ -32,7 +32,7 @@ class SimpleTests(unittest.TestCase):
         assert dataFile is not None
 
     def test_SplitLines(self):
-        dataFile = HighlightedFile('data_highlighter/file.txt')
+        dataFile = HighlightedFile('../data_highlighter/file.txt')
 
         # get the set of self-describing lines
         lines = dataFile.lines()
@@ -64,7 +64,7 @@ class SimpleTests(unittest.TestCase):
 
     def test_SplitTokens(self):
 
-        dataFile = HighlightedFile('data_highlighter/file.txt')
+        dataFile = HighlightedFile('../data_highlighter/file.txt')
 
         # get the set of self-describing lines
         lines = dataFile.lines()
