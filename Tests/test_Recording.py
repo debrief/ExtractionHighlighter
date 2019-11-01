@@ -58,9 +58,11 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual(7, len(tokens))
 
         tool = "TOOL"
+        field = "FIELD"
         value = "VALUE"
         units = "UNITS"
-        tokens[0].record(tool, value, units)
+
+        tokens[0].record(tool, field, value, units)
 
         chars = dataFile.charsDebug()
         assert chars is not None
@@ -71,8 +73,16 @@ class SimpleTests(unittest.TestCase):
 
         firstUsage = firstEntry.usages[0]
         self.assertTrue(firstUsage is not None, "should have a usage")
+        self.assertEqual("TOOL/FIELD", firstUsage.toolField)
+        self.assertEqual("Value:VALUE Units:UNITS", firstUsage.message)
 
-
+        # make another recordd
+        firstLine.record(field, value)
+        self.assertEqual(2, len(firstEntry.usages))
+        secondUsage = firstEntry.usages[1]
+        self.assertTrue(secondUsage is not None, "should have a usage")
+        self.assertEqual("FIELD", secondUsage.toolField)
+        self.assertEqual("VALUE", secondUsage.message)
 
 if __name__ == "__main__":
     unittest.main()
