@@ -8,6 +8,7 @@ TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
 DATA_FILE = 'data_highlighter/file.txt'
+COMMA_FILE = 'data_highlighter/file_comma.txt'
 
 class SimpleTests(unittest.TestCase):
 
@@ -36,6 +37,25 @@ class SimpleTests(unittest.TestCase):
         lines = dataFile.lines()
         
         self.assertEqual(7, len(lines))
+
+    def test_SplitCommaTokens(self):
+
+        dataFile = HighlightedFile(COMMA_FILE)
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+
+        firstLine = lines[0]
+        assert firstLine is not None
+
+        #FixMe - this next constant should be declared in class module
+        CSV_DELIM = "(?:,\"|^\")(\"\"|[\w\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)"
+
+
+        tokens = firstLine.tokens(CSV_DELIM)
+        self.assertEqual(7, len(tokens))
+
+        self.assertEqual("951212", tokens[0].text)
 
     def test_SplitTokens(self):
 
