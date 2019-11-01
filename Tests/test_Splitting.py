@@ -7,6 +7,8 @@ dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
+DATA_FILE = 'data_highlighter/file.txt'
+
 class SimpleTests(unittest.TestCase):
 
     ############################
@@ -23,15 +25,35 @@ class SimpleTests(unittest.TestCase):
     #### file tests ####
     ####################
 
+    def test_SplitLoadFile(self):
+        dataFile = HighlightedFile(DATA_FILE)
+        assert dataFile is not None
+
     def test_SplitLines(self):
-        #NORMAL FILE
+        dataFile = HighlightedFile('data_highlighter/file.txt')
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+        
+        self.assertEqual(7, len(lines))
+
+    def test_SplitTokens(self):
+
         dataFile = HighlightedFile('data_highlighter/file.txt')
 
         # get the set of self-describing lines
         lines = dataFile.lines()
 
-        for thisLine in lines:
-            tokens = thisLine.tokens()
+        firstLine = lines[0]
+        assert firstLine is not None
+
+        tokens = firstLine.tokens()
+        self.assertEqual(7, len(tokens))
+
+        firstToken = tokens[0]
+        assert firstToken is not None
+
+        self.assertEqual("951212", firstToken.text)
 
    
 if __name__ == "__main__":
