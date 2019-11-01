@@ -16,6 +16,11 @@ class HighlightedFile():
         self.filename = filename
         self.dictColor={}
     #
+    def charsDebug(self):
+        """
+        Debug method, to check contents of chars
+        """
+        return self.chars
     def lines(self):
         """
         slice the file into single lines
