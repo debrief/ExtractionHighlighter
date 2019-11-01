@@ -85,6 +85,7 @@ class UsageRecordingTests(unittest.TestCase):
         self.assertEqual("VALUE", secondUsage.message)
 
         print(firstEntry)
+        dataFile.export("test_out,html")
 
 
 if __name__ == "__main__":
