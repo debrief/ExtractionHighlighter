@@ -33,7 +33,6 @@ class SimpleTests(unittest.TestCase):
         for thisLine in lines:
             tokens = thisLine.tokens()
 
-        self.assert(tokens = "23")
    
 if __name__ == "__main__":
     unittest.main()
