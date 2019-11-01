@@ -9,7 +9,7 @@ ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
 DATA_FILE = 'data_highlighter/file.txt'
 
-class SimpleTests(unittest.TestCase):
+class UsageRecordingTests(unittest.TestCase):
 
     ############################
     #### setup and teardown ####
