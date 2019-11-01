@@ -53,8 +53,26 @@ class SimpleTests(unittest.TestCase):
         firstToken = tokens[0]
         assert firstToken is not None
 
-        self.assertEqual("951212", firstToken.text)
+        self.assertEqual("951212", tokens[0].text)
+        self.assertEqual("050000.000", tokens[1].text)
+        self.assertEqual("MONDEO_44", tokens[2].text)
+        self.assertEqual("@C", tokens[3].text)
+        self.assertEqual("269.7", tokens[4].text)
+        self.assertEqual("2.0", tokens[5].text)
+        self.assertEqual("10", tokens[6].text)
 
-   
+        secondLine = lines[1]
+        assert secondLine is not None
+
+        tokens = secondLine.tokens()
+        self.assertEqual(5, len(tokens))
+
+        self.assertEqual("//", tokens[0].text)
+        self.assertEqual("EVENT", tokens[1].text)
+        self.assertEqual("951212", tokens[2].text)
+        self.assertEqual("050300.000", tokens[3].text)
+        self.assertEqual("BRAVO", tokens[4].text)
+
+
 if __name__ == "__main__":
     unittest.main()
