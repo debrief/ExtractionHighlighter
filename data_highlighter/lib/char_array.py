@@ -6,7 +6,6 @@ class CharIndex:
     def __init__(self, letter):
         self.letter = letter
         self.usages = []
-
     def __str__(self):
         message = "[" + self.letter + "]"
         for usage in self.usages:
@@ -21,5 +20,4 @@ class SingleUsage:
 
     def __init__(self, toolField, message):
         self.toolField = toolField
-
         self.message = message
