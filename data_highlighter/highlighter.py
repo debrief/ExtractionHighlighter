@@ -1,13 +1,14 @@
 from data_highlighter.lib.char_array import  CharIndex
 from data_highlighter.lib.line import  Line
 from data_highlighter.lib.color_picker import  hexColorFor, meanColorFor, colorFor
+
 class HighlightedFile():
     """
     class that can load/tokenize a datafile, record changes to the file,
     then export a highlighted version of the file that indicates extraction
     """
 
-    def __init__(self, filename: str):
+    def __init__(self, filename: str,numberOfLines=-1):
         """
         Constructor for this object
         Args:
@@ -15,6 +16,7 @@ class HighlightedFile():
         """
         self.filename = filename
         self.dictColor={}
+        self.numberOfLines=numberOfLines
     #
     def charsDebug(self):
         """
@@ -25,30 +27,12 @@ class HighlightedFile():
         """
         slice the file into single lines
         """
-        with open(self.filename, 'r') as file:
-            sampleLines = file.read()
-            # make the char index the correct length
-        self.chars = [None] * len(sampleLines)
+        if self.numberOfLines == -1:
+            return self.notLimitedLines()
+        else:
+            return self.limitedLines()
 
-        # initialise the char index
-        charCtr = 0
-        for char in sampleLines:
-            # put letter into a struct
-            charInd = CharIndex(char)
-            self.chars[charCtr] = charInd
-            charCtr += 1
 
-            # ok, break the file into self-aware lines
-        lineCtr = 0
-        lines = []
-        strLines = sampleLines.splitlines()
-        for thisLine in strLines:
-            thisLen = len(thisLine)
-            newL = Line(str(lineCtr), str(lineCtr + thisLen), thisLine, self.chars)
-            lines.append(newL)
-            lineCtr += thisLen + 1
-
-        return lines
 
     def export(self, filename: str):
         """
@@ -105,3 +89,68 @@ class HighlightedFile():
             fOut.write("</span>")
 
         fOut.close()
+
+    def limitedLines(self):
+        """
+            If  numberOfLines were limited
+        :return:
+        """
+
+        with open(self.filename, 'r') as file:
+            sampleLines = file.read()
+
+        lineCtr = 0
+        lines = []
+        strLines = sampleLines.splitlines()
+        strLines= strLines[0:self.numberOfLines]
+        stringToChar = ''.join(str(e) for e in strLines)
+
+        self.chars = [None] * len(stringToChar)
+
+        # initialise the char index
+        charCtr = 0
+        for char in stringToChar:
+            # put letter into a struct
+            charInd = CharIndex(char)
+            self.chars[charCtr] = charInd
+            charCtr += 1
+
+
+
+        for thisLine in strLines:
+            thisLen = len(thisLine)
+            newL = Line(str(lineCtr), str(lineCtr + thisLen), thisLine, self.chars)
+            lines.append(newL)
+            lineCtr += thisLen + 1
+
+
+        return lines
+
+    def notLimitedLines(self):
+        with open(self.filename, 'r') as file:
+            sampleLines = file.read()
+
+
+            # make the char index the correct length
+        self.chars = [None] * len(sampleLines)
+
+        # initialise the char index
+        charCtr = 0
+        for char in sampleLines:
+            # put letter into a struct
+            charInd = CharIndex(char)
+            self.chars[charCtr] = charInd
+            charCtr += 1
+
+
+            # ok, break the file into self-aware lines
+        lineCtr = 0
+        lines = []
+        strLines = sampleLines.splitlines()
+        for thisLine in strLines:
+            thisLen = len(thisLine)
+            newL = Line(str(lineCtr), str(lineCtr + thisLen), thisLine, self.chars)
+            lines.append(newL)
+            lineCtr += thisLen + 1
+
+        return lines
