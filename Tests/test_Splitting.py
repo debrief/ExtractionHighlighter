@@ -51,8 +51,7 @@ class SimpleTests(unittest.TestCase):
         #FixMe - this next constant should be declared in class module
         CSV_DELIM = "(?:,\"|^\")(\"\"|[\w\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)"
 
-
-        tokens = firstLine.tokens(CSV_DELIM)
+        tokens = firstLine.tokens(CSV_DELIM, ",")
         self.assertEqual(7, len(tokens))
 
         self.assertEqual("951212", tokens[0].text)
