@@ -1,5 +1,6 @@
 import os, sys
 import unittest
+from data_highlighter.highlighter import  HighlightedFile
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -23,7 +24,16 @@ class SimpleTests(unittest.TestCase):
     ####################
 
     def test_SplitLines(self):
-        pass
+        #NORMAL FILE
+        dataFile = HighlightedFile('data_highlighter/file.txt')
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+
+        for thisLine in lines:
+            tokens = thisLine.tokens()
+
+        self.assert(tokens = "23")
    
 if __name__ == "__main__":
     unittest.main()
