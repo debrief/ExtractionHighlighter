@@ -1,6 +1,7 @@
 import os, sys
 import unittest
 from data_highlighter.highlighter import  HighlightedFile
+from data_highlighter.lib.char_array import CharIndex
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -55,6 +56,11 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual(7, len(tokens))
 
         self.assertEqual("951212", tokens[0].text)
+        print(tokens[1])
+
+    def test_SplitCharIndex(self):
+        c_index = CharIndex("Z")
+        print(c_index)
 
     def test_SplitTokens(self):
 

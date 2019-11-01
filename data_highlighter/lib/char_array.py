@@ -20,5 +20,4 @@ class SingleUsage:
 
     def __init__(self, toolField, message):
         self.toolField = toolField
-
         self.message = message

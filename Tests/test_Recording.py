@@ -84,5 +84,8 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual("FIELD", secondUsage.toolField)
         self.assertEqual("VALUE", secondUsage.message)
 
+        print(firstEntry)
+
+
 if __name__ == "__main__":
     unittest.main()
