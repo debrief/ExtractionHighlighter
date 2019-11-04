@@ -1,6 +1,6 @@
-from .build_lib.char_array import  CharIndex
-from .build_lib.line import  Line
-from .build_lib.color_picker import  hexColorFor, meanColorFor, colorFor
+from .support.char_array import  CharIndex
+from .support.line import  Line
+from .support.color_picker import  hexColorFor, meanColorFor, colorFor
 class HighlightedFile():
     """
     class that can load/tokenize a datafile, record changes to the file,
