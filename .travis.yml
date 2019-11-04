@@ -4,7 +4,10 @@ python:
 cache: pip
 install:
   - pip install -r requirements.txt
+  - pip install codecov
 script:
   - coverage3 run -m unittest discover -v test
 after_success:
   - coverage3 report
+  # Push the results back to codecov
+  - codecov
