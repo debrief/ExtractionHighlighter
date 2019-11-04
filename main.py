@@ -1,7 +1,7 @@
-from highlighter import  HighlightedFile
+from  data_highlight.highlighter import  HighlightedFile
 
 #NORMAL FILE
-dataFile = HighlightedFile('file.txt')
+dataFile = HighlightedFile('data_highlight/file.txt')
 
 # get the set of self-describing lines
 lines = dataFile.lines()
@@ -32,7 +32,7 @@ dataFile.export("out4.html")
 
 
 
-dataFileCSV = HighlightedFile('file_comma.txt')
+dataFileCSV = HighlightedFile('data_highlight/file_comma.txt')
 
 # get the set of self-describing lines
 lines = dataFileCSV.lines()
