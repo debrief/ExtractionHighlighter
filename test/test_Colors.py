@@ -1,5 +1,5 @@
 import unittest
-from data_highlight.build_lib.color_picker import colorFor, hexColorFor, meanColorFor
+from data_highlight.support.color_picker import colorFor, hexColorFor, meanColorFor
 
 class ColorTests(unittest.TestCase):
 
