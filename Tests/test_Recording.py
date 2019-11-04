@@ -1,13 +1,13 @@
 import os, sys
 import unittest
-from data_highlighter.highlighter import  HighlightedFile
+from data_highlight.highlighter import  HighlightedFile
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'data_highlighter/file.txt'
+DATA_FILE = 'data_highlight/file.txt'
 
 class UsageRecordingTests(unittest.TestCase):
 
@@ -27,7 +27,7 @@ class UsageRecordingTests(unittest.TestCase):
 
     def test_CreateChars(self):
 
-        dataFile = HighlightedFile('data_highlighter/file.txt')
+        dataFile = HighlightedFile('data_highlight/file.txt')
 
         # get the set of self-describing lines
         lines = dataFile.lines()
@@ -46,7 +46,7 @@ class UsageRecordingTests(unittest.TestCase):
 
     def test_RecordTokens(self):
 
-        dataFile = HighlightedFile('data_highlighter/file.txt')
+        dataFile = HighlightedFile('data_highlight/file.txt')
 
         # get the set of self-describing lines
         lines = dataFile.lines()

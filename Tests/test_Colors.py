@@ -1,7 +1,7 @@
 import os, sys
 import unittest
-from data_highlighter.highlighter import  HighlightedFile
-from data_highlighter.lib.color_picker import colorFor, hexColorFor, meanColorFor
+from data_highlight.highlighter import  HighlightedFile
+from data_highlight.lib.color_picker import colorFor, hexColorFor, meanColorFor
 
 class ColorTests(unittest.TestCase):
 
