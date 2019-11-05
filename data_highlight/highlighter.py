@@ -95,7 +95,7 @@ class HighlightedFile():
 
             # just check if it's newline
             if (letter == "\n"):
-                fOut.write("</br>")
+                fOut.write("<br>")
             else:
                 fOut.write(letter)
 
