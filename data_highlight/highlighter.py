@@ -138,9 +138,9 @@ class HighlightedFile:
             charCtr += 1
 
         for this_line in array_to_lines:
-            thisLen = len(this_line)
-            newL = Line(str(line_ctr), str(line_ctr + thisLen), this_line, self.chars)
+            line_length = len(this_line)
+            newL = Line(str(line_ctr), str(line_ctr + line_length), this_line, self.chars)
             lines.append(newL)
-            line_ctr += thisLen + 1
+            line_ctr += line_length + 1
 
         return lines
