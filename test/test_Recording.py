@@ -73,7 +73,7 @@ class UsageRecordingTests(unittest.TestCase):
 
         firstUsage = firstEntry.usages[0]
         self.assertTrue(firstUsage is not None, "should have a usage")
-        self.assertEqual("TOOL/FIELD", firstUsage.toolField)
+        self.assertEqual("TOOL/FIELD", firstUsage.tool_field)
         self.assertEqual("Value:VALUE Units:UNITS", firstUsage.message)
 
         # make another recordd
@@ -81,11 +81,11 @@ class UsageRecordingTests(unittest.TestCase):
         self.assertEqual(2, len(firstEntry.usages))
         secondUsage = firstEntry.usages[1]
         self.assertTrue(secondUsage is not None, "should have a usage")
-        self.assertEqual("FIELD", secondUsage.toolField)
+        self.assertEqual("FIELD", secondUsage.tool_field)
         self.assertEqual("VALUE", secondUsage.message)
 
         print(firstEntry)
-        dataFile.export("test_out,html")
+        dataFile.export("test_out.html")
 
 
 if __name__ == "__main__":
