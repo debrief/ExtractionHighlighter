@@ -35,7 +35,7 @@ class UsageRecordingTests(unittest.TestCase):
         chars = dataFile.charsDebug()
         assert chars is not None
 
-        self.assertEqual(319, len(chars))
+        self.assertEqual(323, len(chars))
 
         self.assertEqual("9", chars[0].letter)
         self.assertEqual("5", chars[1].letter)
