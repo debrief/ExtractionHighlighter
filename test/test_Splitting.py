@@ -83,7 +83,7 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual("MONDEO_44", tokens[2].text)
         self.assertEqual("@C", tokens[3].text)
         self.assertEqual("269.7", tokens[4].text)
-        self.assertEqual("2.0", tokens[5].text)
+        self.assertEqual("10.0", tokens[5].text)
         self.assertEqual("10", tokens[6].text)
 
         secondLine = lines[1]
