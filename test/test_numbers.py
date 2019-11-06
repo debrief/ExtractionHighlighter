@@ -1,12 +1,5 @@
-import os
 import unittest
 from data_highlight.highlighter import  HighlightedFile
-
-path = os.path.abspath(__file__)
-dir_path = os.path.dirname(path)
-TEST_FILE = os.path.join(dir_path, "reptest1.rep")
-ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
-
 
 DATA_FILE = 'data_highlight/file.txt'
 
