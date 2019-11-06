@@ -44,6 +44,7 @@ class SimpleTest(unittest.TestCase):
         with self.assertRaises(SystemExit) as cm:
             dataFile = HighlightedFile(DATA_FILE, -5)
             lines = dataFile.lines()
+            print(lines) # to avoid unused variable warning
 
         self.assertEqual(cm.exception.code, 1)
 
@@ -53,6 +54,14 @@ class SimpleTest(unittest.TestCase):
         lines = dataFile.lines()
         self.assertEqual(len(lines), 7)
 
+    def test_zero_number(self):
+
+        with self.assertRaises(SystemExit) as cm:
+            dataFile = HighlightedFile(DATA_FILE, 0)
+            lines = dataFile.lines()
+            print(lines) # to avoid unused variable warning
+
+        self.assertEqual(cm.exception.code, 1)
 
 
 if __name__ == "__main__":
