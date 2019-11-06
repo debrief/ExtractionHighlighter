@@ -34,7 +34,7 @@ class HighlightedFile:
         if self.number_of_lines is None:
             return self.not_limited_lines()
         elif self.number_of_lines <= 0:
-            print("Negative number of lines. Please provide positive number")
+            print("Non-positive number of lines. Please provide positive number")
             exit(1)
         else:
             return self.limited_lines()
