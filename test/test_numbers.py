@@ -27,7 +27,7 @@ class SimpleTest(unittest.TestCase):
 
     def test_number_of_lines(self):
 
-        dataFile = HighlightedFile('data_highlight/file.txt',2)
+        dataFile = HighlightedFile(DATA_FILE,2)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
@@ -42,10 +42,17 @@ class SimpleTest(unittest.TestCase):
     def test_negative_number_of_lines(self):
 
         with self.assertRaises(SystemExit) as cm:
-            dataFile = HighlightedFile('data_highlight/file.txt', -5)
+            dataFile = HighlightedFile(DATA_FILE, -5)
             lines = dataFile.lines()
 
         self.assertEqual(cm.exception.code, 1)
+
+    def test_more_than_lines_number(self):
+        dataFile = HighlightedFile(DATA_FILE, 200)
+
+        lines = dataFile.lines()
+        self.assertEqual(len(lines), 7)
+
 
 
 if __name__ == "__main__":
