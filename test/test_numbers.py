@@ -39,6 +39,20 @@ class SimpleTest(unittest.TestCase):
         usages = chars[0].usages
         self.assertTrue(usages is not None, "usages should be declared")
 
+    def test_all_lines(self):
+
+        dataFile = HighlightedFile(DATA_FILE)
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+
+        chars = dataFile.charsDebug()
+        self.assertEqual(323, len(chars))
+        self.assertEqual(7, len(lines))
+
+        usages = chars[0].usages
+        self.assertTrue(usages is not None, "usages should be declared")
+
     def test_negative_number_of_lines(self):
 
         with self.assertRaises(SystemExit) as cm:

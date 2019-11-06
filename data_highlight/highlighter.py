@@ -14,7 +14,8 @@ class HighlightedFile:
         Constructor for this object
         Args:
             filename (str): The name of the file to be parsed/reported upon
-            number_of_lines(int) Number of lines that should be showed  to the output
+            number_of_lines(int) Number of lines that should be showed
+                   to the output, or all line if omitted
         """
         self.filename = filename
         self.dict_color = {}
