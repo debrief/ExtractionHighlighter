@@ -28,8 +28,8 @@ class Token():
             value(str): what value the token provided
             units(str): the units of the token
         """
-        toolField = tool + "/" + field
+        tool_field = tool + "/" + field
         message = "Value:" + str(value) + " Units:" + str(units)
         for i in range(self.start(), self.end()):
-            usage = SingleUsage(toolField, message)
+            usage = SingleUsage(tool_field, message)
             self.chars[i].usages.append(usage)
