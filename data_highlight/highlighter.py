@@ -116,9 +116,6 @@ class HighlightedFile:
         with open(self.filename, 'r') as file:
             sample_lines = file.read()
 
-            # make the char index the correct length
-        self.chars = [None] * len(sample_lines)
-
         str_lines = sample_lines.splitlines()
         lines = self.fill_char_array(sample_lines, str_lines)
         return lines
@@ -126,7 +123,7 @@ class HighlightedFile:
     def fill_char_array(self, string_to_char, array_to_lines):
         line_ctr = 0
         lines = []
-
+        # make the char index the correct length
         self.chars = [None] * len(string_to_char)
 
         # initialise the char index
