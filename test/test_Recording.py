@@ -1,13 +1,14 @@
 import os
 import unittest
-from data_highlight.highlighter import  HighlightedFile
+from data_highlight.highlighter import HighlightedFile
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'data_highlight/file.txt'
+DATA_FILE = 'files/file.txt'
+
 
 class UsageRecordingTests(unittest.TestCase):
 
@@ -26,13 +27,12 @@ class UsageRecordingTests(unittest.TestCase):
     ####################
 
     def test_CreateChars(self):
-
-        dataFile = HighlightedFile('data_highlight/file.txt')
+        dataFile = HighlightedFile(DATA_FILE)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
 
-        chars = dataFile.charsDebug()
+        chars = dataFile.chars_debug()
         assert chars is not None
 
         self.assertEqual(323, len(chars))
@@ -45,8 +45,7 @@ class UsageRecordingTests(unittest.TestCase):
         self.assertEqual(0, len(usages), "usages should start empty")
 
     def test_RecordTokens(self):
-
-        dataFile = HighlightedFile('data_highlight/file.txt')
+        dataFile = HighlightedFile(DATA_FILE)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
@@ -64,27 +63,27 @@ class UsageRecordingTests(unittest.TestCase):
 
         tokens[0].record(tool, field, value, units)
 
-        chars = dataFile.charsDebug()
+        chars = dataFile.chars_debug()
         assert chars is not None
 
-        firstEntry = chars[0]
-        self.assertEqual("9", firstEntry.letter)
-        self.assertEqual(1, len(firstEntry.usages))
+        first_entry = chars[0]
+        self.assertEqual("9", first_entry.letter)
+        self.assertEqual(1, len(first_entry.usages))
 
-        firstUsage = firstEntry.usages[0]
-        self.assertTrue(firstUsage is not None, "should have a usage")
-        self.assertEqual("TOOL/FIELD", firstUsage.tool_field)
-        self.assertEqual("Value:VALUE Units:UNITS", firstUsage.message)
+        first_usage = first_entry.usages[0]
+        self.assertTrue(first_usage is not None, "should have a usage")
+        self.assertEqual("TOOL/FIELD", first_usage.tool_field)
+        self.assertEqual("Value:VALUE Units:UNITS", first_usage.message)
 
         # make another recordd
         firstLine.record(field, value)
-        self.assertEqual(2, len(firstEntry.usages))
-        secondUsage = firstEntry.usages[1]
-        self.assertTrue(secondUsage is not None, "should have a usage")
-        self.assertEqual("FIELD", secondUsage.tool_field)
-        self.assertEqual("VALUE", secondUsage.message)
+        self.assertEqual(2, len(first_entry.usages))
+        second_usage = first_entry.usages[1]
+        self.assertTrue(second_usage is not None, "should have a usage")
+        self.assertEqual("FIELD", second_usage.tool_field)
+        self.assertEqual("VALUE", second_usage.message)
 
-        print(firstEntry)
+        print(first_entry)
         dataFile.export("test_out.html")
 
 
