@@ -6,6 +6,7 @@ class CharIndex:
     def __init__(self, letter):
         self.letter = letter
         self.usages = []
+
     def __str__(self):
         message = "[" + self.letter + "]"
         for usage in self.usages:

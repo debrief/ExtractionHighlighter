@@ -1,5 +1,6 @@
 import unittest
-from data_highlight.support.color_picker import colorFor, hexColorFor, meanColorFor
+from data_highlight.support.color_picker import color_for, hex_color_for, mean_color_for
+
 
 class ColorTests(unittest.TestCase):
 
@@ -18,32 +19,32 @@ class ColorTests(unittest.TestCase):
     ####################
 
     def test_ColorFor(self):
-        colorDict = {}
-        color1 = colorFor("aaa", colorDict)
+        color_dict = {}
+        color1 = color_for("aaa", color_dict)
         assert color1 is not None
-        self.assertEqual(1, len(colorDict))
+        self.assertEqual(1, len(color_dict))
 
-        color2 = colorFor("bbb", colorDict)
+        color2 = color_for("bbb", color_dict)
         assert color2 is not None
-        self.assertEqual(2, len(colorDict))
+        self.assertEqual(2, len(color_dict))
         self.assertNotEqual(color1, color2)
 
-        color3 = colorFor("aaa", colorDict)
-        self.assertEqual(2, len(colorDict), "Should not have created new dict entry")
+        color3 = color_for("aaa", color_dict)
+        self.assertEqual(2, len(color_dict), "Should not have created new dict entry")
         self.assertEqual(color1, color3)
 
     def test_HexConversion(self):
         red = (255, 0, 0)
-        self.assertEqual("rgba(255,0,0,0.300000)", hexColorFor(red))
+        self.assertEqual("rgba(255,0,0,0.300000)", hex_color_for(red))
 
     def test_MeanColor(self):
         color1 = (100, 50, 200)
         color2 = (50, 0, 150)
         color3 = (150, 100, 250)
 
-        self.assertEqual((75, 25, 175), meanColorFor((color1, color2)))
-        self.assertEqual((100, 50, 200), meanColorFor((color3, color2)))
-        self.assertEqual((100, 50, 200), meanColorFor((color1, color2, color3)))
+        self.assertEqual((75, 25, 175), mean_color_for((color1, color2)))
+        self.assertEqual((100, 50, 200), mean_color_for((color3, color2)))
+        self.assertEqual((100, 50, 200), mean_color_for((color1, color2, color3)))
 
 
 if __name__ == "__main__":

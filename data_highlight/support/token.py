@@ -1,23 +1,33 @@
-from .char_array import  SingleUsage
-class Token():
+from .char_array import SingleUsage
+
+
+class SmallToken:
+    def __init__(self, span, text, line_start, chars):
+        self.span = span
+        self.text = text
+        self.line_start = line_start
+        self.chars = chars
+
+    def start(self):
+        return self.line_start + self.span[0]
+
+    def end(self):
+        return self.line_start + self.span[1]
+
+
+class Token:
     """
     a single token
     """
 
-    def __init__(self, span, text, lineStart, chars):
-        self.span = span
-        self.text = text
-        self.lineStart = lineStart
-        self.chars = chars
+    def __init__(self, array_of_tokens):
+        """
+        :param array_of_tokens:  Arrays Of token
+        """
+        self.children = array_of_tokens
 
-    def __str__(self):
-        return "[(" + str(self.start()) + "-" + str(self.end()) + ")" + ":\"" + self.text + "\"]"
-
-    def start(self):
-        return self.lineStart + self.span[0]
-
-    def end(self):
-        return self.lineStart + self.span[1]
+    def token_text(self):
+        return self.children[0].text
 
     def record(self, tool: str, field: str, value: str, units: str = "n/a"):
         """
@@ -30,6 +40,10 @@ class Token():
         """
         tool_field = tool + "/" + field
         message = "Value:" + str(value) + " Units:" + str(units)
-        for i in range(self.start(), self.end()):
-            usage = SingleUsage(tool_field, message)
-            self.chars[i].usages.append(usage)
+
+        for token in self.children:
+            start = token.start()
+            end = token.end()
+            for i in range(start, end):
+                usage = SingleUsage(tool_field, message)
+                token.chars[i].usages.append(usage)
