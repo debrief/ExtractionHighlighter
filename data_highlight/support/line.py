@@ -29,6 +29,9 @@ class Line:
                     # and ditch any new whitespace
                 token_str = token_str.strip()
             token = SmallToken(match.span(), token_str, int(self.start), self.chars)
+
+            # the token object expects an array of tokens,
+            # since it could be a composite object
             arr_of_tokens = [token]
 
             self.tokens_array.append(Token(arr_of_tokens))
