@@ -5,7 +5,6 @@ class SmallToken:
     def __init__(self, span, text, line_start, chars):
         self.span = span
         self.text = text
-        self.span = span
         self.line_start = line_start
         self.chars = chars
 
