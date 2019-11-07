@@ -24,10 +24,10 @@ class Token:
         """
         :param array_of_tokens:  Arrays Of token
         """
-        self.array_of_tokens = array_of_tokens
+        self.children = array_of_tokens
 
     def token_text(self):
-        return self.array_of_tokens[0].text
+        return self.children[0].text
 
     def record(self, tool: str, field: str, value: str, units: str = "n/a"):
         """
@@ -41,7 +41,7 @@ class Token:
         tool_field = tool + "/" + field
         message = "Value:" + str(value) + " Units:" + str(units)
 
-        for token in self.array_of_tokens:
+        for token in self.children:
             start = token.start()
             end = token.end()
             for i in range(start, end):
