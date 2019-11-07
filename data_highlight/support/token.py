@@ -9,10 +9,10 @@ class SmallToken:
         self.chars = chars
 
     def start(self):
-        return self.span[0] + self.line_start
+        return self.line_start + self.span[0]
 
     def end(self):
-        return self.span[1] + self.line_start
+        return self.line_start + self.span[1]
 
 
 class Token:
