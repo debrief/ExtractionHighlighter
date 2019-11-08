@@ -56,11 +56,9 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual(7, len(tokens))
 
         self.assertEqual("951212", tokens[0].text())
-        print(tokens[1])
 
     def test_SplitCharIndex(self):
         c_index = CharIndex("Z")
-        print(c_index)
 
     def test_SplitTokens(self):
         data_file = HighlightedFile(DATA_FILE)

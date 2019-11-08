@@ -3,7 +3,7 @@ import unittest
 from re import finditer
 from datetime import datetime
 from data_highlight.highlighter import HighlightedFile
-from data_highlight.support.combine import combine
+from data_highlight.support.combine import combine_tokens
 from data_highlight.highlighter_functionality.export import export
 
 
@@ -78,7 +78,7 @@ class CombineTokenTests(unittest.TestCase):
 
         dateToken = tokens[0]
         timeToken = tokens[1]
-        dateTimeToken = combine(dateToken, timeToken)
+        dateTimeToken = combine_tokens(dateToken, timeToken)
 
         date_time = self.parse_timestamp(dateToken.text(), timeToken.text())
 
@@ -102,7 +102,7 @@ class CombineTokenTests(unittest.TestCase):
                 self.assertEqual(1, len(usages))
                 self.assertEqual("Value:1995-12-12 05:00:00 Units:N/A", usages[0].message)
 
-    def test_CombineMultipleLines(self):
+    def test_CombineTokensOnMultipleLines(self):
         dataFile = HighlightedFile(NMEA_FILE)
 
         # get the set of self-describing lines
@@ -120,12 +120,6 @@ class CombineTokenTests(unittest.TestCase):
         spd_tok = None
 
         for line in lines:
-            """   print("=====")
-            print(time_tok)
-            print(hdg_tok)
-            print(spd_tok)
-            print(lat_tok) """
-
             tokens = line.tokens(nmea_delim, ",")
             if len(tokens) > 0:
 
@@ -160,7 +154,7 @@ class CombineTokenTests(unittest.TestCase):
                         fStr.format(spd) + ", Hdg:" + fStr.format(hdg)
 
 
-                    big_token = combine(lat_tok, lat_hem_tok, long_tok, long_hem_tok, spd_tok, hdg_tok, date_tok, time_tok)
+                    big_token = combine_tokens(lat_tok, lat_hem_tok, long_tok, long_hem_tok, spd_tok, hdg_tok, date_tok, time_tok)
                     big_token.record("NMEA Import", "Date:" + str(date_time), msg, "N/A")
 
                     date_tok = None
@@ -169,6 +163,81 @@ class CombineTokenTests(unittest.TestCase):
                     lat_tok = None
 
         dataFile.export("nmea.html")
+
+    def test_CombineLinesOnMultipleLines(self):
+        dataFile = HighlightedFile(NMEA_FILE)
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+
+        nmea_delim = "([^,]+|(?<=,)(?=,)|^(?=,)|(?<=,)$)"
+
+        lat_tok = None
+        lat_hem_tok = None
+        long_tok = None
+        long_hem_tok = None
+        date_tok = None
+        time_tok = None
+        hdg_tok = None
+        spd_tok = None
+
+        date_line = None
+        loc_line = None
+        hdg_line = None
+        spd_line = None
+
+        for line in lines:
+            tokens = line.tokens(nmea_delim, ",")
+            if len(tokens) > 0:
+
+                msg_type = tokens[1].text()
+
+                if msg_type == "DZA":
+                    date_tok = tokens[2]
+                    time_tok = tokens[3]
+                    date_line = line
+                elif msg_type == "VEL":
+                    spd_tok = tokens[6]
+                    spd_line = line
+                elif msg_type == "HDG":
+                    hdg_tok = tokens[2]
+                    hdg_line = line
+                elif msg_type == "POS":
+                    lat_tok = tokens[3]
+                    lat_hem_tok = tokens[4]
+                    long_tok = tokens[5]
+                    long_hem_tok = tokens[6]
+                    loc_line = line
+
+                # do we have all we need?
+                if date_tok and spd_tok and hdg_tok and lat_tok:
+
+                    date_time = self.parse_timestamp(date_tok.text(), time_tok.text())
+
+                    loc = self.parse_location(lat_tok.text(), lat_hem_tok.text(), 
+                                    long_tok.text(), long_hem_tok.text())
+                    spd = float(spd_tok.text())
+                    hdg = float(hdg_tok.text())
+
+                    fStr = "{:8.2f}"
+
+                    msg = "Date:" + str(date_time) + ", Loc:()" + fStr.format(loc[0]) + ", " \
+                        + fStr.format(loc[1]) + "), Spd:" +  \
+                        fStr.format(spd) + ", Hdg:" + fStr.format(hdg)
+
+
+                    line_composite = combine_tokens(date_line, loc_line, spd_line, hdg_line)
+
+                    line_composite.record("NMEA Import", "Date:" + str(date_time), msg, "N/A")
+
+                    date_tok = None
+                    spd_tok = None
+                    hdg_tok = None
+                    lat_tok = None
+
+        dataFile.export("nmea2.html")        
+
+
 
 if __name__ == "__main__":
     unittest.main()
