@@ -145,7 +145,7 @@ class UsageRecordingTests(unittest.TestCase):
                 tempToken.record("Third Party Temp Tracker", "Env Tmp", tempToken.text(),"Deg C")
 
 
-        dataFile.export("track_lines.html")
+        dataFile.export("track_lines.html", True)
 
 if __name__ == "__main__":
     unittest.main()

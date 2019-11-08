@@ -43,13 +43,13 @@ class HighlightedFile:
         else:
             return self.limited_lines()
 
-    def export(self, filename: str):
+    def export(self, filename: str, include_key=False):
         """
         Provide highlighter summary for this file
         Args:
             filename (str): The name of the destination for the HTML output
         """
-        export_from_functionality(filename, self.chars, self.dict_color)
+        export_from_functionality(filename, self.chars, self.dict_color, include_key)
 
     def limited_lines(self):
         """
