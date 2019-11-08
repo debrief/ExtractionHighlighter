@@ -9,11 +9,13 @@ class SmallToken:
         self.chars = chars
 
     def start(self):
-        return self.line_start + self.span[0]
+        return self.line_start + int(self.span[0])
 
     def end(self):
-        return self.line_start + self.span[1]
+        return self.line_start + int(self.span[1])
 
+    def __repr__(self):
+        return  "(" + str(self.line_start) + "+" + repr(self.span) + ", " + self.text + ")"
 
 class Token:
     """
@@ -29,7 +31,7 @@ class Token:
     def __repr__(self):
         res = ""
         for child in self.children:
-            res += "(" + repr(child.span) + ", " + child.text + ")"
+            res += "(" + str(child) + ")"
         return res
 
     def text(self):

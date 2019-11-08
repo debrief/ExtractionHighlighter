@@ -1,6 +1,7 @@
 from .support.char_array import CharIndex
 from .support.line import Line
 from .highlighter_functionality.export import export as export_from_functionality
+from .support.token import SmallToken
 
 
 class HighlightedFile:
@@ -85,10 +86,11 @@ class HighlightedFile:
             char_ind = CharIndex(char)
             self.chars.append(char_ind)
 
-
         for this_line in array_to_lines:
-            line_length = len(this_line)
-            new_l = Line(str(line_ctr), str(line_ctr + line_length), this_line, self.chars)
+            line_length = len(this_line)     
+            line_span = (0, len(this_line))       
+            smallToken = SmallToken(line_span, this_line, int(line_ctr), self.chars)
+            new_l = Line([smallToken])
             lines.append(new_l)
             line_ctr += line_length + 1
 

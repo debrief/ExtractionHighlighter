@@ -1,6 +1,6 @@
 from .token import Token
 
-def combine(*tokens):
+def combine_tokens(*tokens):
     res = []
     for token in tokens:  
         children = token.children
