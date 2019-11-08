@@ -103,7 +103,7 @@ class CombineTokenTests(unittest.TestCase):
                 self.assertEqual("Value:1995-12-12 05:00:00 Units:N/A", usages[0].message)
 
     def test_CombineTokensOnMultipleLines(self):
-        dataFile = HighlightedFile(NMEA_FILE)
+        dataFile = HighlightedFile(NMEA_FILE,50)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
@@ -165,7 +165,7 @@ class CombineTokenTests(unittest.TestCase):
         dataFile.export("nmea.html")
 
     def test_CombineLinesOnMultipleLines(self):
-        dataFile = HighlightedFile(NMEA_FILE)
+        dataFile = HighlightedFile(NMEA_FILE,50)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
