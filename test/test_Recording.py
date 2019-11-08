@@ -128,9 +128,10 @@ class UsageRecordingTests(unittest.TestCase):
                 dateToken = tokens[0]
                 timeToken = tokens[1]
                 vehicleToken = tokens[2]
-                courseToken = tokens[3]
-                speedToken = tokens[4]
-                tempToken = tokens[5]
+                courseToken = tokens[4]
+                speedToken = tokens[5]
+                tempToken = tokens[6]
+
 
                 dateVal = self.parse_timestamp(dateToken.text(), timeToken.text())
                 dateTimeToken = combine_tokens(dateToken, timeToken)
@@ -139,6 +140,10 @@ class UsageRecordingTests(unittest.TestCase):
                 courseToken.record(tool,"Course", courseToken.text(), "Degs")
                 speedToken.record(tool,"Speed", speedToken.text(),"M/Sec")
                 tempToken.record(tool, "Temperature", tempToken.text(), "Deg C")
+
+                # also send the temperature somewhewre else
+                tempToken.record("Third Party Temp Tracker", "Env Tmp", tempToken.text(),"Deg C")
+
 
         dataFile.export("track_lines.html")
 
