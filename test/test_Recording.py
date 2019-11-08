@@ -1,6 +1,8 @@
 import os
 import unittest
+from datetime import datetime
 from data_highlight.highlighter import HighlightedFile
+from data_highlight.support.combine import combine_tokens
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -26,11 +28,24 @@ class UsageRecordingTests(unittest.TestCase):
     #### file tests ####
     ####################
 
+    def parse_timestamp(self, date, time):
+        if len(date) == 6:
+            formatStr = "%y%m%d"
+        else:
+            formatStr = "%Y%m%d"
+
+        if len(time) == 6:
+            formatStr += "%H%M%S"
+        else:
+            formatStr += "%H%M%S.%f"
+
+        return datetime.strptime(date + time, formatStr)
     def test_CreateChars(self):
         dataFile = HighlightedFile(DATA_FILE)
 
         # get the set of self-describing lines
         lines = dataFile.lines()
+        self.assertEqual(7, len(lines))
 
         chars = dataFile.chars_debug()
         assert chars is not None
@@ -83,9 +98,54 @@ class UsageRecordingTests(unittest.TestCase):
         self.assertEqual("FIELD", second_usage.tool_field)
         self.assertEqual("VALUE", second_usage.message)
 
-        print(first_entry)
-        dataFile.export("test_out.html")
+    def test_multi_lines(self):
+        dataFile = HighlightedFile(DATA_FILE)
 
+        tool = "TOOL"
+
+        # get the set of self-describing lines
+        lines = dataFile.lines()
+
+        # check the contents of hte print statement
+        lineStr = str(lines[0])
+        self.assertEqual("(0+(0, 55), 951212 050000.000 MONDEO_44   @C   269.7   10.0      10)", lineStr)
+        
+
+        for line in lines:
+            tokens = line.tokens()
+
+            if tokens[0].text() == "//":
+                dateToken = tokens[2]
+                timeToken = tokens[3]
+                messageToken = tokens[4]
+
+                dateVal = self.parse_timestamp(dateToken.text(), timeToken.text())
+                dateTimeToken = combine_tokens(dateToken, timeToken)
+                dateTimeToken.record(tool, "Event DTG", dateVal, "N/A")
+
+                messageToken.record(tool, "Message", messageToken.text(), "N/A")
+            else:
+                dateToken = tokens[0]
+                timeToken = tokens[1]
+                vehicleToken = tokens[2]
+                courseToken = tokens[4]
+                speedToken = tokens[5]
+                tempToken = tokens[6]
+
+
+                dateVal = self.parse_timestamp(dateToken.text(), timeToken.text())
+                dateTimeToken = combine_tokens(dateToken, timeToken)
+                dateTimeToken.record(tool, "DTG", dateVal, "N/A")
+                vehicleToken.record(tool,"NAME", vehicleToken.text(), "N/A")
+                courseToken.record(tool,"Course", courseToken.text(), "Degs")
+                speedToken.record(tool,"Speed", speedToken.text(),"M/Sec")
+                tempToken.record(tool, "Temperature", tempToken.text(), "Deg C")
+
+                # also send the temperature somewhewre else
+                tempToken.record("Third Party Temp Tracker", "Env Tmp", tempToken.text(),"Deg C")
+
+
+        dataFile.export("track_lines.html", True)
 
 if __name__ == "__main__":
     unittest.main()

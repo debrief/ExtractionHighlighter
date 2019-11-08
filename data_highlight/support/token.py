@@ -9,11 +9,13 @@ class SmallToken:
         self.chars = chars
 
     def start(self):
-        return self.line_start + self.span[0]
+        return self.line_start + int(self.span[0])
 
     def end(self):
-        return self.line_start + self.span[1]
+        return self.line_start + int(self.span[1])
 
+    def __repr__(self):
+        return  "(" + str(self.line_start) + "+" + repr(self.span) + ", " + self.text + ")"
 
 class Token:
     """
@@ -25,9 +27,18 @@ class Token:
         :param array_of_tokens:  Arrays Of token
         """
         self.children = array_of_tokens
+    
+    def __repr__(self):
+        res = ""
+        for child in self.children:
+            res += "(" + str(child) + ")"
+        return res
 
-    def token_text(self):
-        return self.children[0].text
+    def text(self):
+        res = ""
+        for child in self.children:
+            res += child.text
+        return res
 
     def record(self, tool: str, field: str, value: str, units: str = "n/a"):
         """

@@ -10,7 +10,7 @@ def color_for(hash_code, color_dict):
     else:
         # no, generate one
         hue = random.random()
-        sat = random.random()
+        sat = 0.9 + random.random() * 0.1
         rgb = colorsys.hsv_to_rgb(hue, sat, 0.9)
         r = int(rgb[0] * 255)
         g = int(rgb[1] * 255)
