@@ -12,15 +12,15 @@ for thisLine in lines:
     # check the type
     firstToken = tokens[0]
 
-    if firstToken.token_text() == "//":
+    if firstToken.text() == "//":
         # event marker
         eventImporter = "Simple Event importer"
         dateToken = tokens[2]
-        dateToken.record(eventImporter, "Date", dateToken.token_text())
+        dateToken.record(eventImporter, "Date", dateToken.text())
         timeToken = tokens[3]
-        timeToken.record(eventImporter, "Time", timeToken.token_text())
+        timeToken.record(eventImporter, "Time", timeToken.text())
         eventToken = tokens[4]
-        eventToken.record(eventImporter, "Event", timeToken.token_text())
+        eventToken.record(eventImporter, "Event", timeToken.text())
 
 
         # and the whole=line record
@@ -49,15 +49,15 @@ for thisLine in lines:
     # check the type
     firstToken = tokens[0]
 
-    if firstToken.token_text()== "//":
+    if firstToken.text()== "//":
         # event marker
         eventImporter = "Simple CSV Event importer"
         dateToken = tokens[2]
-        dateToken.record(eventImporter, "Date", dateToken.token_text(), "n/a")
+        dateToken.record(eventImporter, "Date", dateToken.text(), "n/a")
         timeToken = tokens[3]
-        timeToken.record(eventImporter, "Time", timeToken.token_text(), "n/a")
+        timeToken.record(eventImporter, "Time", timeToken.text(), "n/a")
         eventToken = tokens[4]
-        eventToken.record(eventImporter, "Event", timeToken.token_text(), "n/a")
+        eventToken.record(eventImporter, "Event", timeToken.text(), "n/a")
 
         # and the whole=line record
         thisLine.record(eventImporter, "Whole line")
