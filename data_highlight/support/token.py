@@ -25,9 +25,18 @@ class Token:
         :param array_of_tokens:  Arrays Of token
         """
         self.children = array_of_tokens
+    
+    def __repr__(self):
+        res = ""
+        for child in self.children:
+            res += "(" + repr(child.span) + ", " + child.text + ")"
+        return res
 
-    def token_text(self):
-        return self.children[0].text
+    def text(self):
+        res = ""
+        for child in self.children:
+            res += child.text
+        return res
 
     def record(self, tool: str, field: str, value: str, units: str = "n/a"):
         """
