@@ -10,7 +10,7 @@ from data_highlight.highlighter_functionality.export import export
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
-NMEA_FILE = os.path.join(dir_path, "NMEA_out.log")
+NMEA_FILE = os.path.join(dir_path, "NMEA_out.txt")
 
 DATA_FILE = 'files/file.txt'
 
