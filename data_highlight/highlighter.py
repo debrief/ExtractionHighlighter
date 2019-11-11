@@ -1,6 +1,28 @@
 from .support.char_array import CharIndex
 from .support.line import Line
 from .highlighter_functionality.export import export as export_from_functionality
+from .support.token import Token
+
+
+def combine(*args):
+    for i in args:
+        if not isinstance(i, Token):
+            print("Not Token  argument was passed")
+            exit(1)
+
+    first_token = args[0]
+    arr_small=[]
+    for index in range(1,len(args)):
+        arr_Small_tokens=args[index].array_of_tokens
+        for index_small_token in arr_Small_tokens:
+            arr_small.append(index_small_token)
+
+
+    for i in arr_small:
+        first_token.array_of_tokens.append(i)
+
+
+    return first_token
 
 
 class HighlightedFile:
@@ -21,8 +43,6 @@ class HighlightedFile:
         self.filename = filename
         self.dict_color = {}
         self.number_of_lines = number_of_lines
-
-    #
 
     def chars_debug(self):
         """
@@ -84,7 +104,6 @@ class HighlightedFile:
             # put letter into a struct
             char_ind = CharIndex(char)
             self.chars.append(char_ind)
-
 
         for this_line in array_to_lines:
             line_length = len(this_line)

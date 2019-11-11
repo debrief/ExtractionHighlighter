@@ -30,6 +30,9 @@ class Token:
     def token_text(self):
         return self.array_of_tokens[0].text
 
+
+    def token_add_arr(self,array_token):
+        self.array_of_tokens.append(array_token)
     def record(self, tool: str, field: str, value: str, units: str = "n/a"):
         """
         Report on the usage of this token

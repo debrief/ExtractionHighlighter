@@ -36,6 +36,7 @@ class Line:
         return self.tokens_array
 
     def record(self, tool, message):
+
         for i in range(int(self.start), int(self.end)):
             usage = SingleUsage(tool, message)
             self.chars[i].usages.append(usage)
