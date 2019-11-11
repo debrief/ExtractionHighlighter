@@ -1,5 +1,5 @@
 ### ExtractionHighlighter
-Library for highlighting how text matter has been extracted
+Library for highlighting how text matter has been extracted. Some sample output is available [here]( https://debrief.github.io/ExtractionHighlighter/)
 
 ### Dependencies
 
