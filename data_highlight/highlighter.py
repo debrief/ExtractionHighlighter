@@ -1,6 +1,6 @@
 from .support.char_array import CharIndex
 from .support.line import Line
-from .highlighter_functionality.export import export as export_from_functionality
+from .highlighter_functionality.export import export_report
 from .support.token import SmallToken
 
 
@@ -15,8 +15,8 @@ class HighlightedFile:
         Constructor for this object
         Args:
             filename (str): The name of the file to be parsed/reported upon
-            number_of_lines(int) Number of lines that should be showed
-                   to the output, or all line if omitted
+            number_of_lines(int) Number of lines that should be shown
+                   in the output (all lines if None)
         """
         self.chars = []
         self.filename = filename
@@ -49,7 +49,7 @@ class HighlightedFile:
         Args:
             filename (str): The name of the destination for the HTML output
         """
-        export_from_functionality(filename, self.chars, self.dict_color, include_key)
+        export_report(filename, self.chars, self.dict_color, include_key)
 
     def limited_lines(self):
         """
@@ -57,41 +57,51 @@ class HighlightedFile:
         :return:
         """
 
-        with open(self.filename, 'r') as file:
-            sample_lines = file.read()
+        with open(self.filename, "r") as file:
+            file_contents = file.read()
 
-        str_lines = sample_lines.splitlines()
+        lines_list = file_contents.splitlines()
 
-        str_lines = str_lines[0:self.number_of_lines]
-        str_to_char = '\n'.join(str(e) for e in str_lines)
+        sample_of_lines = lines_list[0 : self.number_of_lines]
+        sample_of_contents = "\n".join(str(e) for e in sample_of_lines)
 
-        lines = self.fill_char_array(str_to_char, str_lines)
+        lines = self.fill_char_array(sample_of_contents, lines_list)
+
         return lines
 
     def not_limited_lines(self):
-        with open(self.filename, 'r') as file:
-            sample_lines = file.read()
+        with open(self.filename, "r") as file:
+            file_contents = file.read()
 
-        str_lines = sample_lines.splitlines()
-        lines = self.fill_char_array(sample_lines, str_lines)
+        lines_list = file_contents.splitlines()
+        lines = self.fill_char_array(file_contents, lines_list)
+
         return lines
 
-    def fill_char_array(self, string_to_char, array_to_lines):
-        line_ctr = 0
+    def fill_char_array(self, file_contents, lines_list):
+        # Keeps track of which character in the file a line starts on
+        line_start_counter = 0
         lines = []
 
-        # initialise the char index
-        for char in string_to_char:
-            # put letter into a struct
+        # Initialise the char index (self.chars), with one CharIndex entry for
+        # each character in the file
+        for char in file_contents:
             char_ind = CharIndex(char)
             self.chars.append(char_ind)
 
-        for this_line in array_to_lines:
-            line_length = len(this_line)     
-            line_span = (0, len(this_line))       
-            smallToken = SmallToken(line_span, this_line, int(line_ctr), self.chars)
+        # For each line in the file create a Line object with a SmallToken
+        # object as its child, keeping track of the length of the line
+        # and which character of the file this line starts on 
+        for this_line in lines_list:
+            line_length = len(this_line)
+            line_span = (0, len(this_line))
+            # Create SmallToken object to keep track of the line length, the line itself
+            # the start character of the line in the file, and a reference to the overall
+            # list of characters
+            smallToken = SmallToken(line_span, this_line, int(line_start_counter), self.chars)
             new_l = Line([smallToken])
             lines.append(new_l)
-            line_ctr += line_length + 1
+            # Update the starting character of the line ready for next time
+            line_start_counter += line_length + 1
 
         return lines

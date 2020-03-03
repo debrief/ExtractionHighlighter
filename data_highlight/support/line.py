@@ -18,12 +18,22 @@ class Line:
         self.tokens_array = []
 
     def __repr__(self):
-        res = ""
+        res = "Line: "
         for child in self.children:
-            res += "(" + str(child.line_start) + "+" + repr(child.span) + ", " + child.text + ")"
+            res += (
+                "("
+                + str(child.line_start)
+                + "+"
+                + repr(child.span)
+                + ", "
+                + child.text
+                + ")"
+            )
         return res
 
     def tokens(self, reg_exp=WHITESPACE_DELIM, strip_char=""):
+        self.tokens_array = []
+
         for child in self.children:
             for match in finditer(reg_exp, child.text):
                 token_str = match.group()
@@ -35,7 +45,9 @@ class Line:
                         # and ditch any new whitespace
                     token_str = token_str.strip()
 
-                token = SmallToken(match.span(), token_str, int(child.line_start), child.chars)
+                token = SmallToken(
+                    match.span(), token_str, int(child.line_start), child.chars
+                )
 
                 # the token object expects an array of tokens,
                 # since it could be a composite object
@@ -50,4 +62,3 @@ class Line:
             for i in range(int(child.start()), int(child.end())):
                 usage = SingleUsage(tool, message)
                 child.chars[i].usages.append(usage)
-

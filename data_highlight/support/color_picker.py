@@ -24,7 +24,7 @@ def color_for(hash_code, color_dict):
 # convert a 3-element rgb structure to a HTML color definition
 def hex_color_for(rgb):
     opacity_shade = 0.3
-    return 'rgba(%d,%d,%d,%f)' % (rgb[0], rgb[1], rgb[2], opacity_shade)
+    return "rgba(%d,%d,%d,%f)" % (rgb[0], rgb[1], rgb[2], opacity_shade)
 
 
 # find the mean of the provided colors

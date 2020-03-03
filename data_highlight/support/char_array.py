@@ -7,6 +7,10 @@ class CharIndex:
         self.letter = letter
         self.usages = []
 
+    def __repr__(self):
+        return f"Char: {self.letter} with {len(self.usages)} usage(s)"
+
+
 class SingleUsage:
     """
     storage of a single activity

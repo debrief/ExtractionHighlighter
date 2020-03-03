@@ -8,8 +8,8 @@ dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'files/file.txt'
-COMMA_FILE = 'files/file_comma.txt'
+DATA_FILE = "files/file.txt"
+COMMA_FILE = "files/file_comma.txt"
 
 
 class SimpleTests(unittest.TestCase):
@@ -50,7 +50,9 @@ class SimpleTests(unittest.TestCase):
         assert first_line is not None
 
         # FixMe - this next constant should be declared in class module
-        csv_delim = "(?:,\"|^\")(\"\"|[\w\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)"
+        csv_delim = (
+            '(?:,"|^")(""|[\w\W]*?)(?=",|"$)|(?:,(?!")|^(?!"))([^,]*?)(?=$|,)|(\r\n|\n)'
+        )
 
         tokens = first_line.tokens(csv_delim, ",")
         self.assertEqual(7, len(tokens))

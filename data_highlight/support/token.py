@@ -15,7 +15,16 @@ class SmallToken:
         return self.line_start + int(self.span[1])
 
     def __repr__(self):
-        return  "(" + str(self.line_start) + "+" + repr(self.span) + ", " + self.text + ")"
+        return (
+            "SmallToken: ("
+            + str(self.line_start)
+            + "+"
+            + repr(self.span)
+            + ", "
+            + self.text
+            + ")"
+        )
+
 
 class Token:
     """
@@ -27,9 +36,9 @@ class Token:
         :param array_of_tokens:  Arrays Of token
         """
         self.children = array_of_tokens
-    
+
     def __repr__(self):
-        res = ""
+        res = "Token: "
         for child in self.children:
             res += "(" + str(child) + ")"
         return res

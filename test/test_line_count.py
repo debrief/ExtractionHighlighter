@@ -1,7 +1,7 @@
 import unittest
 from data_highlight.highlighter import HighlightedFile
 
-DATA_FILE = 'files/file.txt'
+DATA_FILE = "files/file.txt"
 
 
 class SimpleTest(unittest.TestCase):
