@@ -13,6 +13,7 @@ class SubToken:
     the text that is contained within the SubToken, the character index that the line starts at
     and a reference to the overall character array created by HighlightedFile.
     """
+
     def __init__(self, span, text, line_start, chars):
         self.span = span
         self.text = text
