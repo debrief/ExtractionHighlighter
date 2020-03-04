@@ -3,7 +3,15 @@ from .usages import SingleUsage
 
 class SubToken:
     """
+    Object representing a single token at a lower level than Token.
 
+    Usually there is a single SubToken object as a child of each Token object,
+    but when tokens are combined (with the `combine_tokens` function) then
+    there will be multiple SubToken children.
+
+    Each SubToken object keeps track of the span (start and end characters) of the SubToken,
+    the text that is contained within the SubToken, the character index that the line starts at
+    and a reference to the overall character array created by HighlightedFile.
     """
     def __init__(self, span, text, line_start, chars):
         self.span = span
@@ -12,9 +20,15 @@ class SubToken:
         self.chars = chars
 
     def start(self):
+        """
+        Returns the index into the character array that this SubToken starts at
+        """
         return self.line_start + int(self.span[0])
 
     def end(self):
+        """
+        Returns the index into the character array that this SubToken ends at
+        """
         return self.line_start + int(self.span[1])
 
     def __repr__(self):

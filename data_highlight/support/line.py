@@ -1,5 +1,5 @@
 from re import finditer
-from .token import Token, SmallToken
+from .token import Token, SubToken
 from .usages import SingleUsage
 
 
@@ -45,7 +45,7 @@ class Line:
                         # and ditch any new whitespace
                     token_str = token_str.strip()
 
-                token = SmallToken(
+                token = SubToken(
                     match.span(), token_str, int(child.line_start), child.chars
                 )
 
