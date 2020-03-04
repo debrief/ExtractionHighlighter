@@ -1,7 +1,7 @@
 from .support.char_array import Char
 from .support.line import Line
 from .highlighter_functionality.export import export_report
-from .support.token import SmallToken
+from .support.token import SubToken
 
 
 class HighlightedFile:
@@ -93,24 +93,24 @@ class HighlightedFile:
 
         # Initialise the char index (self.chars), with one Char entry for
         # each character in the file. (Note: a reference to this char array is
-        # given to each SmallToken)
+        # given to each SubToken)
         for char in file_contents:
             char_obj = Char(char)
             self.chars.append(char_obj)
 
-        # For each line in the file create a Line object with a SmallToken
+        # For each line in the file create a Line object with a SubToken
         # object as its child, keeping track of the length of the line
         # and which character of the file this line starts on
         for this_line in lines_list:
             line_length = len(this_line)
             line_span = (0, len(this_line))
-            # Create SmallToken object to keep track of the line length, the line itself
+            # Create SubToken object to keep track of the line length, the line itself
             # the start character of the line in the file, and a reference to the overall
             # list of characters
-            smallToken = SmallToken(
+            subToken = SubToken(
                 line_span, this_line, int(line_start_counter), self.chars
             )
-            new_l = Line([smallToken])
+            new_l = Line([subToken])
             lines.append(new_l)
             # Update the starting character of the line ready for next time
             line_start_counter += line_length + 1
