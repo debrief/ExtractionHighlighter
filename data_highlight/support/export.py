@@ -1,4 +1,4 @@
-from ..support.color_picker import hex_color_for, mean_color_for, color_for
+from .color_picker import hex_color_for, mean_color_for, color_for
 
 
 def export_report(filename, chars, dict_colors, include_key=False):

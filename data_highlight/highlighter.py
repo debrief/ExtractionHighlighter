@@ -1,6 +1,6 @@
 from .support.char import Char
 from .support.line import Line
-from .highlighter_functionality.export import export_report
+from .support.export import export_report
 from .support.token import SubToken
 
 

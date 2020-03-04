@@ -4,7 +4,7 @@ from re import finditer
 from datetime import datetime
 from data_highlight.highlighter import HighlightedFile
 from data_highlight.support.combine import combine_tokens
-from data_highlight.highlighter_functionality.export import export_report
+from data_highlight.support.export import export_report
 
 
 path = os.path.abspath(__file__)
