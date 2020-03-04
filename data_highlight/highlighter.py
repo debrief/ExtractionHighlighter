@@ -58,15 +58,14 @@ class HighlightedFile:
         """
 
         with open(self.filename, "r") as file:
-            file_contents = file.read()
+            whole_file_contents = file.read()
 
-        lines_list = file_contents.splitlines()
+        lines_list = whole_file_contents.splitlines()
 
-        sample_of_lines = lines_list[0 : self.number_of_lines]
-        sample_of_contents = "\n".join(str(e) for e in sample_of_lines)
+        lines_list = lines_list[0 : self.number_of_lines]
+        limited_contents = "\n".join(str(e) for e in lines_list)
 
-        lines = self.fill_char_array(sample_of_contents, lines_list)
-
+        lines = self.fill_char_array(limited_contents, lines_list)
         return lines
 
     def not_limited_lines(self):
@@ -91,14 +90,16 @@ class HighlightedFile:
 
         # For each line in the file create a Line object with a SmallToken
         # object as its child, keeping track of the length of the line
-        # and which character of the file this line starts on 
+        # and which character of the file this line starts on
         for this_line in lines_list:
             line_length = len(this_line)
             line_span = (0, len(this_line))
             # Create SmallToken object to keep track of the line length, the line itself
             # the start character of the line in the file, and a reference to the overall
             # list of characters
-            smallToken = SmallToken(line_span, this_line, int(line_start_counter), self.chars)
+            smallToken = SmallToken(
+                line_span, this_line, int(line_start_counter), self.chars
+            )
             new_l = Line([smallToken])
             lines.append(new_l)
             # Update the starting character of the line ready for next time
