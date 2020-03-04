@@ -110,7 +110,7 @@ class UsageRecordingTests(unittest.TestCase):
         # check the contents of hte print statement
         lineStr = str(lines[0])
         self.assertEqual(
-            "(0+(0, 55), 951212 050000.000 MONDEO_44   @C   269.7   10.0      10)",
+            "Line: (0+(0, 55), 951212 050000.000 MONDEO_44   @C   269.7   10.0      10)",
             lineStr,
         )
 
