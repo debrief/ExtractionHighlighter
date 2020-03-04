@@ -27,7 +27,7 @@ class SimpleTest(unittest.TestCase):
 
         chars = data_file.chars_debug()
         self.assertEqual(88, len(chars))
-        self.assertEqual(7, len(lines))
+        self.assertEqual(2, len(lines))
 
         usages = chars[0].usages
         self.assertTrue(usages is not None, "usages should be declared")

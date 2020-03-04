@@ -59,15 +59,14 @@ class HighlightedFile:
         """
 
         with open(self.filename, "r") as file:
-            file_contents = file.read()
+            whole_file_contents = file.read()
 
-        lines_list = file_contents.splitlines()
+        lines_list = whole_file_contents.splitlines()
 
-        sample_of_lines = lines_list[0 : self.number_of_lines]
-        sample_of_contents = "\n".join(str(e) for e in sample_of_lines)
+        lines_list = lines_list[0 : self.number_of_lines]
+        limited_contents = "\n".join(str(e) for e in lines_list)
 
-        lines = self.fill_char_array(sample_of_contents, lines_list)
-
+        lines = self.fill_char_array(limited_contents, lines_list)
         return lines
 
     def not_limited_lines(self):
