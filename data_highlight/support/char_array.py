@@ -1,4 +1,4 @@
-class CharIndex:
+class Char:
     """
     storage structure used to describe the activity on a single character
     """
