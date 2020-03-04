@@ -3,24 +3,28 @@ from ..support.color_picker import hex_color_for, mean_color_for, color_for
 
 def export_report(filename, chars, dict_colors, include_key=False):
     """
-    To outsource method from high class and make it more readable
-    :param filename:  Name of f_out
-    :param chars:  pointer of char array
-    :param dict_colors: pointer of dict colors
-    :return:
+    Export a HTML report showing all the extraction usages for the file.
+
+    :param filename: Output filename
+    :param chars: Characters array (should be HighlightedFile.chars)
+    :param dict_colors: Dictionary specifying colors to use (should be HighlightedFile.dict_colors)
+    :param include_key: Whether to include a key at the bottom defining the usages of the colors
+
+    This basically loops through all of the characters in the characters array, and then creates
+    the relevant <span> tags for each character based on the usages stored for that character.
     """
 
     f_out = open(filename, "w")
 
     last_hash = ""
 
-    for char_index in chars:
-        letter = char_index.letter
+    for char in chars:
+        letter = char.letter
         this_hash = ""
         this_message = ""
         colors = []
-        multi_usages = len(char_index.usages) > 1
-        for usage in char_index.usages:
+        multi_usages = len(char.usages) > 1
+        for usage in char.usages:
             this_hash += usage.tool_field
             needs_new_line = this_message != ""
             colors.append(color_for(usage.tool_field, dict_colors))
