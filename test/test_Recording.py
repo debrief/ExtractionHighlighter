@@ -9,7 +9,7 @@ dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'files/file.txt'
+DATA_FILE = "files/file.txt"
 
 
 class UsageRecordingTests(unittest.TestCase):
@@ -40,6 +40,7 @@ class UsageRecordingTests(unittest.TestCase):
             formatStr += "%H%M%S.%f"
 
         return datetime.strptime(date + time, formatStr)
+
     def test_CreateChars(self):
         dataFile = HighlightedFile(DATA_FILE)
 
@@ -108,8 +109,10 @@ class UsageRecordingTests(unittest.TestCase):
 
         # check the contents of hte print statement
         lineStr = str(lines[0])
-        self.assertEqual("(0+(0, 55), 951212 050000.000 MONDEO_44   @C   269.7   10.0      10)", lineStr)
-        
+        self.assertEqual(
+            "Line: (0+(0, 55), 951212 050000.000 MONDEO_44   @C   269.7   10.0      10)",
+            lineStr,
+        )
 
         for line in lines:
             tokens = line.tokens()
@@ -132,20 +135,21 @@ class UsageRecordingTests(unittest.TestCase):
                 speedToken = tokens[5]
                 tempToken = tokens[6]
 
-
                 dateVal = self.parse_timestamp(dateToken.text(), timeToken.text())
                 dateTimeToken = combine_tokens(dateToken, timeToken)
                 dateTimeToken.record(tool, "DTG", dateVal, "N/A")
-                vehicleToken.record(tool,"NAME", vehicleToken.text(), "N/A")
-                courseToken.record(tool,"Course", courseToken.text(), "Degs")
-                speedToken.record(tool,"Speed", speedToken.text(),"M/Sec")
+                vehicleToken.record(tool, "NAME", vehicleToken.text(), "N/A")
+                courseToken.record(tool, "Course", courseToken.text(), "Degs")
+                speedToken.record(tool, "Speed", speedToken.text(), "M/Sec")
                 tempToken.record(tool, "Temperature", tempToken.text(), "Deg C")
 
                 # also send the temperature somewhewre else
-                tempToken.record("Third Party Temp Tracker", "Env Tmp", tempToken.text(),"Deg C")
-
+                tempToken.record(
+                    "Third Party Temp Tracker", "Env Tmp", tempToken.text(), "Deg C"
+                )
 
         dataFile.export("track_lines.html", True)
+
 
 if __name__ == "__main__":
     unittest.main()

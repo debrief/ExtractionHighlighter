@@ -1,15 +1,15 @@
 import os
 import unittest
 from data_highlight.highlighter import HighlightedFile
-from data_highlight.highlighter import CharIndex
+from data_highlight.highlighter import Char
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 TEST_FILE = os.path.join(dir_path, "reptest1.rep")
 ERROR_TEST_FILE = os.path.join(dir_path, "reptest2.rep")
 
-DATA_FILE = 'files/file.txt'
-COMMA_FILE = 'files/file_comma.txt'
+DATA_FILE = "files/file.txt"
+COMMA_FILE = "files/file_comma.txt"
 
 
 class SimpleTests(unittest.TestCase):
@@ -50,15 +50,14 @@ class SimpleTests(unittest.TestCase):
         assert first_line is not None
 
         # FixMe - this next constant should be declared in class module
-        csv_delim = "(?:,\"|^\")(\"\"|[\w\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)"
+        csv_delim = (
+            '(?:,"|^")(""|[\w\W]*?)(?=",|"$)|(?:,(?!")|^(?!"))([^,]*?)(?=$|,)|(\r\n|\n)'
+        )
 
         tokens = first_line.tokens(csv_delim, ",")
         self.assertEqual(7, len(tokens))
 
         self.assertEqual("951212", tokens[0].text())
-
-    def test_SplitCharIndex(self):
-        c_index = CharIndex("Z")
 
     def test_SplitTokens(self):
         data_file = HighlightedFile(DATA_FILE)
@@ -95,7 +94,3 @@ class SimpleTests(unittest.TestCase):
         self.assertEqual("951212", tokens[2].text())
         self.assertEqual("050300.000", tokens[3].text())
         self.assertEqual("BRAVO", tokens[4].text())
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -1,32 +1,36 @@
-from ..support.color_picker import hex_color_for, mean_color_for, color_for
+from .color_picker import hex_color_for, mean_color_for, color_for
 
 
-def export(filename, chars, dict_colors, include_key=False):
+def export_report(filename, chars, dict_colors, include_key=False):
     """
-    To outsource method from high class and make it more readable
-    :param filename:  Name of f_out
-    :param chars:  pointer of char array
-    :param dict_colors: pointer of dict colors
-    :return:
+    Export a HTML report showing all the extraction usages for the file.
+
+    :param filename: Output filename
+    :param chars: Characters array (should be HighlightedFile.chars)
+    :param dict_colors: Dictionary specifying colors to use (should be HighlightedFile.dict_colors)
+    :param include_key: Whether to include a key at the bottom defining the usages of the colors
+
+    This basically loops through all of the characters in the characters array, and then creates
+    the relevant <span> tags for each character based on the usages stored for that character.
     """
 
     f_out = open(filename, "w")
 
     last_hash = ""
 
-    for char_index in chars:
-        letter = char_index.letter
+    for char in chars:
+        letter = char.letter
         this_hash = ""
         this_message = ""
         colors = []
-        multi_usages = len(char_index.usages)>1
-        for usage in char_index.usages:
+        multi_usages = len(char.usages) > 1
+        for usage in char.usages:
             this_hash += usage.tool_field
             needs_new_line = this_message != ""
             colors.append(color_for(usage.tool_field, dict_colors))
             if needs_new_line:
                 this_message += "&#013;"
-            if(multi_usages):
+            if multi_usages:
                 this_message += "-"
             this_message += usage.tool_field + ", " + usage.message
 
@@ -44,9 +48,21 @@ def export(filename, chars, dict_colors, include_key=False):
                     f_out.write("</span>")
 
                     # start a new span
-                    f_out.write("<span title='" + this_message + "' style=\"background-color:" + hex_color + "\"a>")
+                    f_out.write(
+                        "<span title='"
+                        + this_message
+                        + "' style=\"background-color:"
+                        + hex_color
+                        + '"a>'
+                    )
             else:
-                f_out.write("<span title='" + this_message + "' style=\"background-color:" + hex_color + "\">")
+                f_out.write(
+                    "<span title='"
+                    + this_message
+                    + "' style=\"background-color:"
+                    + hex_color
+                    + '">'
+                )
         elif last_hash != "":
             f_out.write("</span>")
 
@@ -67,7 +83,13 @@ def export(filename, chars, dict_colors, include_key=False):
         for key in dict_colors:
             color = dict_colors[key]
             hex_color = hex_color_for(color)
-            f_out.write("<li><span style=\"background-color:" + hex_color + "\">"+key+"</span></li>")
+            f_out.write(
+                '<li><span style="background-color:'
+                + hex_color
+                + '">'
+                + key
+                + "</span></li>"
+            )
         f_out.write("</ul>")
 
     f_out.close()

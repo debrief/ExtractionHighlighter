@@ -1,7 +1,7 @@
-from .support.char_array import CharIndex
+from .support.char import Char
 from .support.line import Line
-from .highlighter_functionality.export import export as export_from_functionality
-from .support.token import SmallToken
+from .support.export import export_report
+from .support.token import SubToken
 
 
 class HighlightedFile:
@@ -15,15 +15,13 @@ class HighlightedFile:
         Constructor for this object
         Args:
             filename (str): The name of the file to be parsed/reported upon
-            number_of_lines(int) Number of lines that should be showed
-                   to the output, or all line if omitted
+            number_of_lines(int) Number of lines that should be shown
+                   in the output (all lines if None)
         """
         self.chars = []
         self.filename = filename
         self.dict_color = {}
         self.number_of_lines = number_of_lines
-
-    #
 
     def chars_debug(self):
         """
@@ -33,7 +31,7 @@ class HighlightedFile:
 
     def lines(self):
         """
-        slice the file into single lines
+        Slice the file into lines and return a list of Line objects
         """
         if self.number_of_lines is None:
             return self.not_limited_lines()
@@ -45,53 +43,75 @@ class HighlightedFile:
 
     def export(self, filename: str, include_key=False):
         """
-        Provide highlighter summary for this file
+        Provide highlighted summary for this file
         Args:
             filename (str): The name of the destination for the HTML output
+            include_key (bool): Whether to include a key at the bottom of the output
+            showing what each colour refers to
         """
-        export_from_functionality(filename, self.chars, self.dict_color, include_key)
+        export_report(filename, self.chars, self.dict_color, include_key)
 
     def limited_lines(self):
         """
-            If  numberOfLines were limited
-        :return:
+        Return a list of Line objects for each line in the file,
+        producing only self.number_of_lines objects (to limit length
+        of output for very large files)
         """
 
-        with open(self.filename, 'r') as file:
-            sample_lines = file.read()
+        with open(self.filename, "r") as file:
+            whole_file_contents = file.read()
 
-        str_lines = sample_lines.splitlines()
+        lines_list = whole_file_contents.splitlines()
 
-        str_lines = str_lines[0:self.number_of_lines]
-        str_to_char = '\n'.join(str(e) for e in str_lines)
+        lines_list = lines_list[0 : self.number_of_lines]
+        limited_contents = "\n".join(str(e) for e in lines_list)
 
-        lines = self.fill_char_array(str_to_char, str_lines)
+        lines = self.fill_char_array(limited_contents, lines_list)
         return lines
 
     def not_limited_lines(self):
-        with open(self.filename, 'r') as file:
-            sample_lines = file.read()
+        """
+        Return a list of Line objects for each line in the file
+        """
+        with open(self.filename, "r") as file:
+            file_contents = file.read()
 
-        str_lines = sample_lines.splitlines()
-        lines = self.fill_char_array(sample_lines, str_lines)
+        lines_list = file_contents.splitlines()
+        lines = self.fill_char_array(file_contents, lines_list)
+
         return lines
 
-    def fill_char_array(self, string_to_char, array_to_lines):
-        line_ctr = 0
+    def fill_char_array(self, file_contents, lines_list):
+        """
+        Fill the array of characters and create individual Line objects
+        for each line, with appropriate references to the character array
+        """
+        # Keeps track of which character in the file a line starts on
+        line_start_counter = 0
         lines = []
 
-        # initialise the char index
-        for char in string_to_char:
-            # put letter into a struct
-            char_ind = CharIndex(char)
-            self.chars.append(char_ind)
+        # Initialise the char index (self.chars), with one Char entry for
+        # each character in the file. (Note: a reference to this char array is
+        # given to each SubToken)
+        for char in file_contents:
+            char_obj = Char(char)
+            self.chars.append(char_obj)
 
-        for this_line in array_to_lines:
-            line_length = len(this_line)     
-            line_span = (0, len(this_line))       
-            smallToken = SmallToken(line_span, this_line, int(line_ctr), self.chars)
-            new_l = Line([smallToken])
+        # For each line in the file create a Line object with a SubToken
+        # object as its child, keeping track of the length of the line
+        # and which character of the file this line starts on
+        for this_line in lines_list:
+            line_length = len(this_line)
+            line_span = (0, len(this_line))
+            # Create SubToken object to keep track of the line length, the line itself
+            # the start character of the line in the file, and a reference to the overall
+            # list of characters
+            subToken = SubToken(
+                line_span, this_line, int(line_start_counter), self.chars
+            )
+            new_l = Line([subToken])
             lines.append(new_l)
-            line_ctr += line_length + 1
+            # Update the starting character of the line ready for next time
+            line_start_counter += line_length + 1
 
         return lines

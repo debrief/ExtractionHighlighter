@@ -1,7 +1,7 @@
 from data_highlight.highlighter import HighlightedFile
 
 # NORMAL FILE
-dataFile = HighlightedFile('data_highlight/file.txt')
+dataFile = HighlightedFile("files/file.txt")
 
 # get the set of self-describing lines
 lines = dataFile.lines()
@@ -22,7 +22,6 @@ for thisLine in lines:
         eventToken = tokens[4]
         eventToken.record(eventImporter, "Event", timeToken.text())
 
-
         # and the whole=line record
         thisLine.record(eventImporter, "Whole line")
 
@@ -35,12 +34,12 @@ dataFile.export("out4.html")
 
 # CSV FILE
 
-dataFileCSV = HighlightedFile('data_highlight/file_comma.txt')
+dataFileCSV = HighlightedFile("files/file_comma.txt")
 
 # get the set of self-describing lines
 lines = dataFileCSV.lines()
 
-CSV_DELIM = "(?:,\"|^\")(\"\"|[\w\W]*?)(?=\",|\"$)|(?:,(?!\")|^(?!\"))([^,]*?)(?=$|,)|(\r\n|\n)"
+CSV_DELIM = '(?:,"|^")(""|[\w\W]*?)(?=",|"$)|(?:,(?!")|^(?!"))([^,]*?)(?=$|,)|(\r\n|\n)'
 
 for thisLine in lines:
 
@@ -49,7 +48,7 @@ for thisLine in lines:
     # check the type
     firstToken = tokens[0]
 
-    if firstToken.text()== "//":
+    if firstToken.text() == "//":
         # event marker
         eventImporter = "Simple CSV Event importer"
         dateToken = tokens[2]
