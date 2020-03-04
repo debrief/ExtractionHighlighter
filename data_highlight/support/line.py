@@ -1,6 +1,6 @@
 from re import finditer
 from .token import Token, SmallToken
-from .char_array import SingleUsage
+from .usages import SingleUsage
 
 
 class Line:

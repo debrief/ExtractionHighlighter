@@ -1,6 +1,12 @@
 class Char:
     """
-    storage structure used to describe the activity on a single character
+    Object used to store information on a specific character.
+
+    Stores the character letter itself, plus a list of usages of the character.
+
+    A list of these is kept in HighlightedFile.chars (and also available through
+    SmallToken.chars), and iterating through this list is used to create the final
+    highlighted file.
     """
 
     def __init__(self, letter):
@@ -9,13 +15,3 @@ class Char:
 
     def __repr__(self):
         return f"Char: {self.letter} with {len(self.usages)} usage(s)"
-
-
-class SingleUsage:
-    """
-    storage of a single activity
-    """
-
-    def __init__(self, tool_field, message):
-        self.tool_field = tool_field
-        self.message = message

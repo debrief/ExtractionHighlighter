@@ -1,4 +1,4 @@
-from .char_array import SingleUsage
+from .usages import SingleUsage
 
 
 class SmallToken:
