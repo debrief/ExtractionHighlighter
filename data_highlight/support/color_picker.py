@@ -2,10 +2,10 @@ import random
 import colorsys
 
 
-def color_for(hash_code, color_dict):
+def color_for(hash_code, color_dict, total_colors):
     """
     Get a color for a specific 'hash code' by either taking one we've already recorded for this hash code,
-    or generating a new random one.
+    or generating a new one at regular intervals in the HSV color model.
     """
     # do we have it already?
     if hash_code in color_dict:
@@ -13,9 +13,10 @@ def color_for(hash_code, color_dict):
         return color_dict[hash_code]
     else:
         # no, generate one
-        hue = random.random()
-        sat = 0.9 + random.random() * 0.1
-        rgb = colorsys.hsv_to_rgb(hue, sat, 0.9)
+        hue = (len(color_dict) / total_colors) % 1.0
+        sat = 0.9
+        val = 0.9
+        rgb = colorsys.hsv_to_rgb(hue, sat, val)
         r = int(rgb[0] * 255)
         g = int(rgb[1] * 255)
         b = int(rgb[2] * 255)
